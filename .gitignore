@@ -4,3 +4,7 @@ dist
 node_modules
 .env
 .idea
+
+# Storage
+storage/events.json
+storage/streams.json
