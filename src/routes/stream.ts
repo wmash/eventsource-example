@@ -36,7 +36,7 @@ export class StreamRoute extends BaseRoute {
 			StreamRoute.createNewStream(req, res, next);
 		});
 
-		router.post("/api/stream/:id/delete", (req: Request, res: Response, next: NextFunction) => {
+		router.delete("/api/stream/:id", (req: Request, res: Response, next: NextFunction) => {
 			StreamRoute.deleteStream(req, res, next);
 		});
 	}
