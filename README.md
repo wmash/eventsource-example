@@ -1,6 +1,6 @@
-# TypeScript 2 + Express + Node.js
+# Event Source Prototype
 
-This is a repository to go with my article on creating an Express web application using TypeScript 2.
+This is a new prototype for event sourcing using Node and Typescript
 
 ## Install
 
