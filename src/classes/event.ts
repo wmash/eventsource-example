@@ -9,6 +9,10 @@ export class Event {
 	private created: Date;
 	private number;
 
+	public getStreamId(): string {
+		return this.streamId;
+	}
+
 	constructor(streamId: string, eventType: string) {
 		this.id = uuidV1();
 		this.streamId = streamId;

@@ -1,5 +1,6 @@
 import * as path from "path";
 import { readJson, writeJson } from "fs-extra";
+import { each, find, remove } from "lodash";
 
 import { Event } from "./event";
 import { Stream } from "./stream";
@@ -49,10 +50,20 @@ export class Storage {
 	 * @class Storage
 	 * @method deleteStream
 	 * @static
-	 * @param stream {Stream} Stream to delete
+	 * @param streamId {string} StreamId of Stream to delete
 	 */
-	public static deleteStream(stream: Stream) {
+	public static async deleteStream(streamId: string) {
+		try {
+			const currentStreams = await this.getStreams();
 
+			remove(currentStreams, (stream) => {
+				return (stream.id === streamId);
+			});
+
+			await this.setStreams(currentStreams);
+		} catch(err) {
+			console.error(err);
+		}
 	}
 
 	/**
@@ -91,7 +102,22 @@ export class Storage {
 
 			currentEvents.push(event);
 
+			await this.addEventToStream(event);
 			await this.setEvents(currentEvents);
+		} catch (err) {
+			console.error(err);
+		}
+	}
+
+	private static async addEventToStream(event: Event) {
+		try {
+			const currentStreams = await this.getStreams();
+			const streamToAmend = find(currentStreams, (stream) => {
+				return (stream.id === event.getStreamId());
+			});
+			streamToAmend.events.push(event);
+
+			await this.setStreams(currentStreams);
 		} catch(err) {
 			console.error(err);
 		}

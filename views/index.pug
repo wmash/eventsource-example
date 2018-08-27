@@ -8,6 +8,28 @@ html
 		script(
 			src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
 		)
+		script(
+			type="text/javascript"
+		)
+			| $(document).ready(function() {
+			| 	$(".removeBtn").on("click", function() {
+			|		var row = $(this).closest("tr");
+			|		var streamId = $(row).find(">:first-child").attr("id");
+			|
+			|       $.ajax({
+			| 			type: "POST",
+			| 			url: window.location.href + "api/stream/" + streamId + "/delete",
+			| 			success: function(res) {
+			|				if (res.redirect) {
+			|					window.location.replace(res.url);
+			|				}
+			|			},
+			|			error: function(err) {
+			|				console.error(err);
+			|			}
+			|		});
+			|	});
+			| });
 	body
 		div(
 			class="container-fluid"
@@ -123,9 +145,19 @@ html
 							tbody
 								each stream in currentStreams
 									tr
-										td= stream.id
+										td(
+											id= stream.id
+										)= stream.id
 										td= stream.name
 										td= stream.events.length
+										td
+											button(
+												type="button"
+												class="btn btn-default btn-sm removeBtn"
+											)
+												span(
+													class="glyphicon glyphicon-remove"
+												)
 				if currentEvents.length
 					div(
 						class="col-lg-6 col-xs-6"

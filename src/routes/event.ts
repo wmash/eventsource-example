@@ -45,4 +45,10 @@ export class EventRoute extends BaseRoute {
 
 		res.redirect(`http://${process.env.HOST}:${process.env.PORT}`);
 	}
+
+	private static async updateRelatedStream() {
+		const streams = await Storage.getStreams();
+
+
+	}
 }

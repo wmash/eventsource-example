@@ -1,11 +1,9 @@
 import { v1 as uuidV1 } from "uuid";
 
-import { Event } from "./event";
-
 export class Stream {
 	private id: string;
 	private name: string;
-	private events: Event[] = [];
+	private events: Object = [];
 
 	constructor(streamName: string) {
 		this.id = uuidV1();
@@ -13,7 +11,7 @@ export class Stream {
 		this.events = [];
 	}
 
-	public getEvents(): Event[] {
+	public getEvents(): Object {
 		return this.events;
 	}
 }

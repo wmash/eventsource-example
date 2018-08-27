@@ -36,8 +36,8 @@ export class StreamRoute extends BaseRoute {
 			StreamRoute.createNewStream(req, res, next);
 		});
 
-		router.get("/api/stream/:id", (req: Request, res: Response, next: NextFunction) => {
-
+		router.post("/api/stream/:id/delete", (req: Request, res: Response, next: NextFunction) => {
+			StreamRoute.deleteStream(req, res, next);
 		});
 	}
 
@@ -51,11 +51,22 @@ export class StreamRoute extends BaseRoute {
 	 * @param next {NextFunction} Execute the next method.
 	 */
 	public static async createNewStream(req: Request, res: Response, next: NextFunction) {
-		const body = req.body;
+		const { body } = req;
 		const newStream: Stream = new Stream(body.streamName);
 
 		await Storage.addStream(newStream);
 
 		res.redirect(`http://${process.env.HOST}:${process.env.PORT}`);
+	}
+
+	public static async deleteStream(req: Request, res: Response, next: NextFunction) {
+		const { params } = req;
+
+		await Storage.deleteStream(params.id);
+
+		res.status(200).send({
+			redirect: true,
+			url: "/"
+		});
 	}
 }
