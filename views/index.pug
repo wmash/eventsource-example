@@ -1,5 +1,156 @@
 html
-  head
-    title= title
-  body
-    h1= message
+	head
+		title= title
+		link(
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		)
+		script(
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		)
+	body
+		div(
+			class="container-fluid"
+		)
+			div(
+				class="jumbotron"
+			)
+				h1(
+					style="text-align: center;"
+				)= message
+			div(
+				class="row"
+			)
+				div(
+					class="col-lg-6 col-xs-6"
+				)
+					form(
+						action="/api/stream/new"
+						method="post"
+						id="newStream"
+						style="border: 1px solid black; border-radius: 10px; padding-top: 15px; padding-bottom: 15pxl"
+						class="col-lg-12 col-xs-12"
+					)
+						h3 New Stream
+						div(
+							class="form-group"
+						)
+							label(
+								for="streamName"
+							) Stream Name:
+							input(
+								id="streamName"
+								type="text"
+								name="streamName"
+								class="form-control"
+								required
+							)
+						button(
+							type="submit"
+							class="btn btn-primary col-lg-12 col-xs-12"
+						) Submit
+				div(
+					class="col-lg-6 col-xs-6"
+				)
+					form(
+						action="/api/event/new"
+						method="post"
+						id="newEvent"
+						style="border: 1px solid black; border-radius: 10px; padding-top: 15px; padding-bottom: 15px;"
+						class="col-lg-12 col-xs-12"
+					)
+						h3 New Event
+						div(
+							class="form-group"
+						)
+							label(
+								for="streamId"
+							) Stream:
+							select(
+								id="streamId"
+								class="form-control"
+								name="streamId"
+								required
+							)
+								each stream in currentStreams
+									option(
+										value=stream.id
+									)= stream.id
+						div(
+							class="form-group"
+						)
+							label(
+								for="eventName"
+							) Event Name:
+							input(
+								id="eventName"
+								type="text"
+								name="eventName"
+								class="form-control"
+								required
+							)
+						div(
+							class="form-group"
+						)
+							label(
+								for="eventType"
+							) Event Type:
+							input(
+								id="eventType"
+								type="text"
+								name="eventType"
+								class="form-control"
+							)
+						button(
+							type="submit"
+							class="btn btn-primary col-lg-12 col-xs-12"
+						) Submit
+			div(
+				class="row"
+			)
+				if currentStreams.length
+					div(
+						class="col-lg-6 col-xs-6"
+					)
+						table(
+							class="table table-striped"
+						)
+							thead
+								tr
+									th ID
+									th Name
+									th # of Events
+							tbody
+								each stream in currentStreams
+									tr
+										td= stream.id
+										td= stream.name
+										td= stream.events.length
+				if currentEvents.length
+					div(
+						class="col-lg-6 col-xs-6"
+					)
+						table(
+							class="table table-striped"
+						)
+							thead
+								tr
+									th ID
+									th Stream ID
+									th Type
+									th Data
+									th Metadata
+							tbody
+								each event in currentEvents
+									tr
+										td= event.id
+										td= event.streamId
+										td= event.type
+										td= JSON.stringify(event.data)
+										td= JSON.stringify(event.metadata)
+		script(
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		)
+		script(
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		)

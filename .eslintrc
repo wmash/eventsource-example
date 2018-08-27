@@ -1,0 +1,56 @@
+{
+	"extends": "airbnb-base",
+	"plugins": [
+		"import",
+		"require"
+	],
+	"env": {
+		"node": true,
+		"mocha": true,
+		"es6": true,
+		"mongo": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"rules": {
+		"indent": ["error", "tab", {
+			"SwitchCase": 1,
+			"MemberExpression": 1
+		}],
+		"linebreak-style": ["error", "unix"],
+		"max-len": ["error", 120],
+		"no-const-assign": "error",
+		"vars-on-top": "error",
+		"no-multi-assign": "error",
+		"no-var": "error",
+		"arrow-body-style": ["error", "always"],
+		"no-unreachable": "warn",
+		"eqeqeq": ["error", "always"],
+		"dot-notation": "warn",
+		"no-eq-null": "warn",
+		"no-multi-spaces": "error",
+		"no-param-reassign": "off",
+		"comma-dangle": ["error", "only-multiline"],
+		"quotes": ["warn", "double"],
+		"no-tabs": 0,
+		"semi": ["error", "always"],
+		"space-before-function-paren": "warn",
+		"no-console": "off",
+		"global-require": "off",
+		"import/no-dynamic-require": "off",
+		"import/extensions": ["warn", "never"],
+		"import/no-unresolved": ["off"],
+		"camelcase": "warn",
+		"import/no-named-default": "warn",
+		"no-unused-vars": "warn",
+		"no-shadow": ["error", {
+			"allow": ["resolve", "reject"]
+		}],
+		"consistent-return": "warn",
+		"new-cap": ["error", {
+			"newIsCap": false
+		}]
+	}
+}

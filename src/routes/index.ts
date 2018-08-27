@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { BaseRoute } from "./route";
 
+import { BaseRoute } from "./route";
+import { Storage } from "./../classes/storage";
 
 /**
  * / route
@@ -9,52 +10,46 @@ import { BaseRoute } from "./route";
  */
 export class IndexRoute extends BaseRoute {
 
-  /**
-   * Create the routes.
-   *
-   * @class IndexRoute
-   * @method create
-   * @static
-   */
-  public static create(router: Router) {
-    //log
-    console.log("[IndexRoute::create] Creating index route.");
+	/**
+	 * Constructor
+	 *
+	 * @class IndexRoute
+	 * @constructor
+	 */
+	constructor() {
+		super();
+	}
 
-    //add home page route
-    router.get("/", (req: Request, res: Response, next: NextFunction) => {
-      new IndexRoute().index(req, res, next);
-    });
-  }
+	/**
+	 * Create the routes.
+	 *
+	 * @class IndexRoute
+	 * @method create
+	 * @static
+	 */
+	public static create(router: Router) {
+		console.log("[IndexRoute::create] Creating index route.");
 
-  /**
-   * Constructor
-   *
-   * @class IndexRoute
-   * @constructor
-   */
-  constructor() {
-    super();
-  }
+		router.get("/", (req: Request, res: Response, next: NextFunction) => {
+			new IndexRoute()
+					.index(req, res, next);
+		});
+	}
 
-  /**
-   * The home page route.
-   *
-   * @class IndexRoute
-   * @method index
-   * @param req {Request} The express Request object.
-   * @param res {Response} The express Response object.
-   * @next {NextFunction} Execute the next method.
-   */
-  public index(req: Request, res: Response, next: NextFunction) {
-    //set custom title
-    this.title = "Home | Tour of Heros";
-
-    //set message
-    let options: Object = {
-      "message": "Welcome to the Tour of Heros"
-    };
-
-    //render template
-    this.render(req, res, "index", options);
-  }
+	/**
+	 * The home page route.
+	 *
+	 * @class IndexRoute
+	 * @method index
+	 * @param req {Request} The express Request object.
+	 * @param res {Response} The express Response object.
+	 * @param next {NextFunction} Execute the next method.
+	 */
+	public async index(req: Request, res: Response, next: NextFunction) {
+		this.render(req, res, "index", {
+			title: "Event Store",
+			currentStreams: await Storage.getStreams(),
+			currentEvents: await Storage.getEvents()
+		});
+	}
 }
