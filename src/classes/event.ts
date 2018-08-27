@@ -1,29 +1,21 @@
+import { v1 as uuidV1 } from "uuid";
+
 export class Event {
 	private id: string;
 	private streamId: string;
 	private data: object;
 	private metadata: object;
 	private type: string;
+	private created: Date;
+	private number;
 
 	constructor(streamId: string, eventType: string) {
-		this.id = Event.generateId();
+		this.id = uuidV1();
 		this.streamId = streamId;
 		this.type = eventType;
 		this.data = {};
 		this.metadata = {};
-	}
-
-	private static generateId() {
-		let generatedId = "";
-		let first = false;
-		let randomChars;
-
-		for (let section = 0; section < 5; section++) {
-			randomChars = Math.random().toString(36).substring(8);
-			generatedId += ((first) ? randomChars : `-${randomChars}`);
-
-			first = false;
-		}
-		return generatedId;
+		this.created = new Date();
+		this.number = 0;
 	}
 }
